@@ -1,0 +1,48 @@
+version: '3'
+services:
+  peduv_ui:
+    container_name: ledge_ui
+    expose:
+      - "3000"
+    ports: 
+      - "3000:3000"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks: 
+      ledge_network:
+        aliases: 
+          - ledge_networkhost
+  peduv_api:
+    container_name: ledge_api
+    expose:
+      - "8000"
+    ports: 
+      - "8000:8000"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    networks: 
+      ledge_network:
+        aliases: 
+          - ledge_networkhost
+  peduv_db:
+    image: postgres
+    env_file: .env
+    container_name: ledge_db
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/db:/data/db
+    networks: 
+      ledge_network:
+        aliases: 
+          - ledge_networkhost
+
+networks: 
+  ledge_network: 
+    driver: bridge
+    ipam: 
+      driver: default
