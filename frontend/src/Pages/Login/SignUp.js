@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
-import { signUpInformationValidator } from '../../Assets/yup/validateLogin';
+import { signUpInformationValidator } from '../../Assets/Yup/validateLogin';
 import { login, saveUser } from './AxiosLogin';
 
 function SignUp() {
