@@ -1,59 +1,91 @@
-import * as React from 'react'
-import { useState } from 'react'
-import Principal from '../Principal/Principal'
-import CssBaseline from '@mui/material/CssBaseline'
+import React, {useState} from 'react';
+import { useFormik } from 'formik';
 import Grid from '@mui/material/Grid'
-import LoginConfirm from './LoginConfirm'
 import Link from '@mui/material/Link'
-import { ToggleButtonGroup, ToggleButton, Box, Paper, Typography } from '@mui/material'
-import LoginIcon from '@mui/icons-material/Login'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import {Routes, Route, useNavigate} from 'react-router-dom'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import { loginInformationValidator } from '../../Assets/yup/validateLogin';
+import { useNavigate } from "react-router-dom";
+import {login as LoginFunction} from "./AxiosLogin"
 
+function Login() {
+  const [LoggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-export default function Login () {
-    const [loginOption, setLoginOption] = useState('login')
+  React.useEffect(() => {
+    if (LoggedIn) return navigate("/");
+  }, [LoggedIn]);
 
-    const navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      id: '',
+      password: ''
+    },
+    validationSchema: loginInformationValidator
+  });
 
-    const navigateToPrincipal = () => {
-      navigate(-1)
+  const tryLogin = (values) =>{
+    LoginFunction(values).then(([res, err]) => {
+      if(err) return;
+      setLoggedIn(true);
+    })
+  }
+
+  const validateValues = async () => {
+    await formik.validateForm();
+    for (var key in formik.values) {
+      formik.setFieldTouched(key, true);
     }
 
-    const handleLogin = (event, newLogin) => {
-      if (newLogin !== null) {
-          setLoginOption(newLogin)
-      } 
-    }
+    return formik.isValid
+  }
 
-    return (
-      <div>
-        <Grid container component = 'main' sx = {{ height: '100vh' }}>
-          <CssBaseline/>
-          <Grid item xs = {false} sm = {4} md = {7} sx = {{ backgroundImage: 'url(https://lazosdelagente.com/wp-content/uploads/2019/07/Santiago-de-cali-1250x800.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}/>
-          <Grid item xs = {12} sm = {8} md = {5} component= {Paper} elevation = {6} square>
-            <Box sx = {{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Typography display="inline" variant="h4" sx = {{ color: '#8b8b8b' }}>Plataforma </Typography><Typography display="inline" variant="h4" sx = {{ color: '#c52636', mb: '3rem' }}>UVLedge</Typography>
-              <ToggleButtonGroup value = {loginOption} exclusive onChange={handleLogin} aria-label = 'login asignar'>
-                <ToggleButton value = 'login' aria-label= 'login asignado'>
-                  <LoginIcon/>
-                  <Typography variant="h8" sx = {{ ml: '1rem', color: '#8b8b8b' }}>Iniciar Sesión</Typography>
-                </ToggleButton>
-                <ToggleButton value = 'sigin' aria-label= 'register asignado'>
-                  <PersonAddIcon/>
-                  <Typography variant="h8" sx = {{ ml: '1rem', color: '#8b8b8b' }}>Registrarme</Typography>
-                </ToggleButton>
-              </ToggleButtonGroup>
-              <LoginConfirm optionLogin = {loginOption}/>
-              <Grid container sx = {{ mt: '4rem' }}>
-                <Grid item xs> <Link onClick = {navigateToPrincipal} variant="body2"> Regresar </Link> </Grid>
-              </Grid>
-            </Box>
-          </Grid>
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const valuesAreValid = await validateValues();
+    if(valuesAreValid) tryLogin(formik.values);
+
+
+  }
+
+  return (
+    <div>
+      <Box component='form' onSubmit={onSubmit} sx={{ mt: 1 }}>
+        <TextField
+          fullWidth
+          error={Boolean(formik.touched.id && formik.errors.id)}
+          helperText={formik.touched.id && formik.errors.id}
+          label="Código del estudiante"
+          name="id"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          required
+          margin='normal'
+          value={formik.values.id}
+        />
+        <TextField
+          fullWidth
+          error={Boolean(formik.touched.password && formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          margin='normal'
+          label="Contraseña"
+          name="password"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          required
+          value={formik.values.password}
+          type={'password'}
+        />
+        <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, bgcolor: '#c52636' }}>
+          Ingresar
+        </Button>
+        <Grid container>
+          <Grid item xs> <Link href="#" variant="body2"> Forgot password? </Link> </Grid>
         </Grid>
-        <Routes>
-          <Route path = 'principal' element = {<Principal/>}/>
-        </Routes>
-      </div>
-    )
+      </Box>
+    </div>
+  )
 }
+
+export { Login }

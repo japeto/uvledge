@@ -16,7 +16,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import CardActionArea from '@mui/material/CardActionArea'
-import Login from '../Login/Login'
+import Login from '../Login'
 import {Routes, Route, useNavigate} from 'react-router-dom'
 
 const sections = [

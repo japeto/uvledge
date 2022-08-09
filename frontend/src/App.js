@@ -1,5 +1,5 @@
 import Principal from './Pages/Principal/Principal'
-import Login from './Pages/Login/Login'
+import Login from './Pages/Login/index'
 
 import {
   Routes,
