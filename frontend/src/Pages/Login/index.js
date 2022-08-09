@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useState } from 'react'
-import Principal from '../Principal/Principal'
+import Principal from '../Main'
 import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
 import { SignUp } from './SignUp'

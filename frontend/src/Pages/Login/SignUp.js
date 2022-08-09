@@ -5,8 +5,8 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
-import { signUpInformationValidator } from '../../Assets/Yup/validateLogin';
-import { login, saveUser } from './AxiosLogin';
+import { signUpInformationValidator } from '../../Services/Utils/YupModels/validateLogin';
+import { login, saveUser } from '../../Services/Utils/AxiosPetitions/AxiosLogin';
 
 function SignUp() {
   const [LoggedIn, setLoggedIn] = useState(false);

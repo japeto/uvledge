@@ -1,5 +1,5 @@
-import Principal from './Pages/Principal/Principal'
-import Login from './Pages/Login/index'
+import Main from '../Pages/Main/index'
+import Login from '../Pages/Login/index'
 
 import {
   Routes,
@@ -9,7 +9,7 @@ import {
 export default function App () {
   return (
     <Routes>
-      <Route path="/" element = {<Principal/>}/>
+      <Route path="/" element = {<Main/>}/>
       <Route path="login" element = {<Login/>}/>
     </Routes>
   )

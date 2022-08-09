@@ -3,10 +3,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Header from "./Header";
+import Header from "../../Layouts/Header";
 import MainFeaturedPost from "./MainFeaturedPost";
 import FeaturedPost from "../../Components/Cards/FeaturedPostCard";
-import Footer from "./Footer";
+import Footer from "../../Layouts/Footer/index"
 import Carousel from "react-material-ui-carousel";
 import { Paper, Typography, Box } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -20,6 +20,7 @@ import Login from "../Login";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { maxWidth } from "@mui/system";
 import { NoticePostCard } from "../../Components/Cards/NoticePostCard";
+import { UserLoginCard } from "../../Components/Cards/UserLoginCard";
 
 const sections = [
   { title: "Inicio", url: "#" },
@@ -123,33 +124,7 @@ export default function Principal() {
                   /Inicio/
                 </Typography>
               </Grid>
-              <Grid item xs={4} alignItems="flex-end">
-                <Box
-                  container
-                  justifyContent="flex-end"
-                  sx={{ display: "flex" }}
-                >
-                  <Box sx={{ display: "flex", flexDirection: "column" }}>
-                    <PersonIcon sx={{ fontSize: "4rem" }} />
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      mt: "auto",
-                      mb: "auto",
-                    }}
-                  >
-                    <Typography sx={{ color: "#8b8b8b", fontWeight: "bold" }}>
-                      {"Mi cuenta"}
-                    </Typography>
-
-                    <Typography sx={{ color: "#8b8b8b", fontSize: "0.7rem" }}>
-                      Ingresa o registrate
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
+              <UserLoginCard/>
               <Grid item xs={12}>
                 <Typography
                   display="inline"

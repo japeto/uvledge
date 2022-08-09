@@ -5,9 +5,9 @@ import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { loginInformationValidator } from '../../Assets/Yup/validateLogin';
+import { loginInformationValidator } from '../../Services/Utils/YupModels/validateLogin';
 import { useNavigate } from "react-router-dom";
-import {login as LoginFunction} from "./AxiosLogin"
+import {login as LoginFunction} from "../../Services/Utils/AxiosPetitions/AxiosLogin"
 
 function Login() {
   const [LoggedIn, setLoggedIn] = useState(false);
