@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Reclutamiento",
+    "image":
+      "https://cdn2.iconfinder.com/data/icons/business-804/24/deal-contract-agreement-handshake-hand-512.png",
+    "imageLabel": "Image Text"
+  },
+  {
+    "title": "Contacto",
+    "image":
+      "https://cdn2.iconfinder.com/data/icons/business-804/24/deal-contract-agreement-handshake-hand-512.png",
+    "imageLabel": "Image Text"
+  },
+  {
+    "title": "Eventos",
+    "image":
+      "https://cdn2.iconfinder.com/data/icons/business-804/24/loudspeaker-promotion-advertising-bullhorn-megaphone-marketing-512.png",
+    "imageLabel": "Image Text"
+  },
+  {
+    "title": "Eva Lab",
+    "image":
+      "https://cdn2.iconfinder.com/data/icons/business-804/24/computer-seo-startup-start-launch-rocket-512.png",
+    "imageLabel": "Image Text"
+  },
+  {
+    "title": "Desarrollo",
+    "image":
+      "https://cdn0.iconfinder.com/data/icons/education-364/24/school-programming-laptop-learning-coding-education-512.png",
+    "imageLabel": "Image Text"
+  }
+]

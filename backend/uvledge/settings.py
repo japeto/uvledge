@@ -6,10 +6,11 @@ import os
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
+
 # from djcelery import setup_loader
 
 
-########## PATH CONFIGURATION
+# PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
 DJANGO_ROOT = dirname(abspath(__file__))
 
@@ -22,10 +23,10 @@ SITE_NAME = os.getenv('SITE_NAME', 'uvledge')
 # Add our project to our pythonpath, this way we don't need to type our project
 # name in our dotted import paths:
 path.append(DJANGO_ROOT)
-########## END PATH CONFIGURATION
+# END PATH CONFIGURATION
 
 
-########## DEBUG CONFIGURATION
+# DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True if os.getenv('DEBUG') == 'true' else False
 
@@ -33,10 +34,24 @@ DEBUG = True if os.getenv('DEBUG') == 'true' else False
 TEMPLATE_DEBUG = DEBUG
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
-########## END DEBUG CONFIGURATION
+# END DEBUG CONFIGURATION
 
-
-########## MANAGER CONFIGURATION
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+# MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
     ('*', '*'),
@@ -44,25 +59,25 @@ ADMINS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
-########## END MANAGER CONFIGURATION
+# END MANAGER CONFIGURATION
 
 
-########## DATABASE CONFIGURATION
+# DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DATABASE_ENGINE', 'django.db.backends.postgresql_psycopg2'),
         'NAME': os.getenv('DATABASE_NAME', 'postgres'),
         'USER': os.getenv('DATABASE_USER', 'postgres'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'uvledgedb'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'UgRHPn8RJFiwYU'),
         'HOST': os.getenv('DATABASE_SERVICE_HOST', 'localhost'),
         'PORT': os.getenv('DATABASE_SERVICE_PORT', 5432)
     }
 }
-########## END DATABASE CONFIGURATION
+# END DATABASE CONFIGURATION
 
 
-########## GENERAL CONFIGURATION
+# GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
 TIME_ZONE = 'America/Los_Angeles'
 
@@ -80,19 +95,19 @@ USE_L10N = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
-########## END GENERAL CONFIGURATION
+# END GENERAL CONFIGURATION
 
 
-########## MEDIA CONFIGURATION
+# MEDIA CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
 MEDIA_ROOT = normpath(join(DJANGO_ROOT, 'media'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
-########## END MEDIA CONFIGURATION
+# END MEDIA CONFIGURATION
 
 
-########## STATIC FILE CONFIGURATION
+# STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
 STATIC_ROOT = normpath(join(SITE_ROOT, 'staticfiles'))
 
@@ -110,24 +125,25 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     # 'compressor.finders.CompressorFinder',
 )
-########## END STATIC FILE CONFIGURATION
+# END STATIC FILE CONFIGURATION
 
 
-########## SECRET CONFIGURATION
+# SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = os.getenv('SECRET_KEY', '8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*')
-########## END SECRET CONFIGURATION
+SECRET_KEY = os.getenv(
+    'SECRET_KEY', '8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*')
+# END SECRET CONFIGURATION
 
 
-########## FIXTURE CONFIGURATION
+# FIXTURE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
 FIXTURE_DIRS = (
     normpath(join(DJANGO_ROOT, 'fixtures')),
 )
-########## END FIXTURE CONFIGURATION
+# END FIXTURE CONFIGURATION
 
 
-########## TEMPLATE CONFIGURATION
+# TEMPLATE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
 TEMPLATES = [
     {
@@ -147,14 +163,15 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request'
             ],
         },
     },
 ]
-########## END TEMPLATE CONFIGURATION
+# END TEMPLATE CONFIGURATION
 
 
-########## MIDDLEWARE CONFIGURATION
+# MIDDLEWARE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE = (
     # Use GZip compression to reduce bandwidth.
@@ -170,16 +187,16 @@ MIDDLEWARE = (
     # CORS
     'corsheaders.middleware.CorsMiddleware',
 )
-########## END MIDDLEWARE CONFIGURATION
+# END MIDDLEWARE CONFIGURATION
 
 
-########## URL CONFIGURATION
+# URL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = '%s.urls' % SITE_NAME
-########## END URL CONFIGURATION
+# END URL CONFIGURATION
 
 
-########## APP CONFIGURATION
+# APP CONFIGURATION
 DJANGO_APPS = (
     # Default Django apps:
     'django.contrib.auth',
@@ -195,13 +212,14 @@ DJANGO_APPS = (
     # Admin panel and documentation:
     'django.contrib.admin',
     'django.contrib.admindocs',
+    
 )
 
 THIRD_PARTY_APPS = (
-    
+
     # REST
     'rest_framework',
-    
+
     # Auth
     'oauth2_provider',
 
@@ -210,31 +228,45 @@ THIRD_PARTY_APPS = (
 
 )
 
+# AUTH_USER_MODEL = user.CustomUser   
+
 LOCAL_APPS = (
 
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-########## END APP CONFIGURATION
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'oauth2_provider',
+    'rest_framework',
+    'corsheaders',
+    # django apps:
+    'participant'
+]
+# END APP CONFIGURATION
 
-########## REST FRAMEWORK CONFIGURATION
+# REST FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
-########## END REST FRAMEWORK CONFIGURATION
+# END REST FRAMEWORK CONFIGURATION
 
 
-########## LOGGING CONFIGURATION
+# LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'filters': {
-    'require_debug_false': {
-        '()': 'django.utils.log.RequireDebugFalse'
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
         }
     },
     'handlers': {
@@ -261,10 +293,10 @@ LOGGING = {
         },
     }
 }
-########## END LOGGING CONFIGURATION
+# END LOGGING CONFIGURATION
 
 
-########## CELERY CONFIGURATION
+# CELERY CONFIGURATION
 # See: http://celery.readthedocs.org/en/latest/configuration.html#celery-task-result-expires
 # CELERY_TASK_RESULT_EXPIRES = timedelta(minutes=30)
 
@@ -273,16 +305,16 @@ LOGGING = {
 
 # # See: http://celery.github.com/celery/django/
 # setup_loader()
-########## END CELERY CONFIGURATION
+# END CELERY CONFIGURATION
 
 
-########## WSGI CONFIGURATION
+# WSGI CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = 'wsgi.application'
-########## END WSGI CONFIGURATION
+# END WSGI CONFIGURATION
 
 
-########## COMPRESSION CONFIGURATION
+# COMPRESSION CONFIGURATION
 # # See: http://django_compressor.readthedocs.org/en/latest/settings/#django.conf.settings.COMPRESS_ENABLED
 # COMPRESS_ENABLED = True
 
@@ -298,31 +330,30 @@ WSGI_APPLICATION = 'wsgi.application'
 # COMPRESS_JS_FILTERS = [
 #     'compressor.filters.template.TemplateFilter',
 # ]
-########## END COMPRESSION CONFIGURATION
+# END COMPRESSION CONFIGURATION
 
 
-
-########## CORS
+# CORS
 # CORS settings # JAPETO
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:8000'
 )
-########## END CORS CONFIGURATION
+# END CORS CONFIGURATION
 
-########## EMAIL CONFIGURATION
+# EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
 # MAILGUN_ACCESS_KEY = 'key-c2ebfec48050f7c36bd1a9f8f59fd2e3'
 # MAILGUN_SERVER_NAME = 'mg.mappostcards.com'
-########## END EMAIL CONFIGURATION
+# END EMAIL CONFIGURATION
 
 
 # ########## SSL CONFIGURATION
-# 
+#
 # Disable by load balancer
-# 
+#
 # SESSION_COOKIE_SECURE = True
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 # CSRF_COOKIE_SECURE = True
@@ -332,4 +363,3 @@ CORS_ORIGIN_WHITELIST = (
 # ########## SITE CONFIGURATION
 # SITE_URL = "https://localhost"
 # ########## END SITE CONFIGURATION
-

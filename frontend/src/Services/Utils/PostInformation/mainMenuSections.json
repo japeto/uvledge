@@ -1,0 +1,13 @@
+[
+  { "title": "Inicio", "url": "#" },
+  { "title": "La Universidad", "url": "#" },
+  { "title": "Estudia en Univalle", "url": "#" },
+  { "title": "Sedes Regionales", "url": "#" },
+  { "title": "Investigación", "url": "#" },
+  { "title": "Internalización", "url": "#" },
+  { "title": "Publicaciones", "url": "#" },
+  {
+    "title": "Campus Virtual",
+    "url": "https://campusvirtual.univalle.edu.co/moodle/"
+  }
+]
