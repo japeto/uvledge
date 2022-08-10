@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Participant
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 
 class ParticipantViewSet(viewsets.ModelViewSet):
 
@@ -16,7 +16,7 @@ class ParticipantViewSet(viewsets.ModelViewSet):
     serializer_class = ParticipantSerializer
     queryset = Participant.objects.all()
 
-    http_method_names = ['post']
+    http_method_names = ['post', 'get']
     
     @action(detail=False, methods=['post'])
     def save(this, request: Request) -> Response:
@@ -44,9 +44,9 @@ class ParticipantViewSet(viewsets.ModelViewSet):
         except KeyError:
             return Response("Invalid Content", status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
-            return Response(e, status.HTTP_400_BAD_REQUEST)
-        # except:
-        #     return Response("Internal error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response("ID, Email or student code is duplicated", status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response("Internal error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     @action(detail=False, methods=["post"])
     def login(self, request: Request) -> Response:
@@ -54,13 +54,26 @@ class ParticipantViewSet(viewsets.ModelViewSet):
             id:str = request.data['id']
             password:str = request.data['password']
             
-            user: User = authenticate(username=id, password=password)
+            user: User = authenticate(request=request, username=id, password=password)
             if(user is None):
                 return Response("invalid username or password", status=status.HTTP_404_NOT_FOUND)
+
+            login(request, user)
+            print(request.user)
             
             return Response("User exist", status=status.HTTP_200_OK)
         except KeyError:
             return Response("Invalid Content", status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response("Internal error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(detail=False, methods=["get"])
+    def is_logged(self, request: Request) -> Response:
+        # try:
+            if request.user.is_authenticated:
+                return Response({"logged": True}, status=status.HTTP_200_OK)
+            print(request.user)
+            return Response({"logged": False}, status=status.HTTP_200_OK)
         # except:
         #     return Response("Internal error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

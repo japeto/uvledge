@@ -1,0 +1,16 @@
+[
+  {
+    "title": "¡Bienvenido!",
+    "description": "Nos encontramos en construcción",
+    "image":
+      "https://www.eltiempo.com/files/article_main/uploads/2018/07/27/5b5b8e2d7b3a3.jpeg",
+    "imageText": "main image description"
+  },
+  {
+    "title": "UVLedge",
+    "description": "Frontend de prueba de conocimientos",
+    "image":
+      "https://www.cali.gov.co/turismo/publicaciones/154205/cali-nuevamente-nominada-como-destino-turistico-por-excelencia/info/principal/media/pubInt/thumbs/thpub_700X400_154205.jpg",
+    "imageText": "main image description"
+  }
+]

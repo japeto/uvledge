@@ -5,8 +5,8 @@ const SERVER_URI = process.env.SERVER_HOST ? process.env.SERVER_HOST : "http://l
 //Save an user(participant) in DB
 async function saveUser(data) {
   try {
-    const [res, err] = await axios.post(SERVER_URI + "user/save/", data)
-    return [res, err];
+    const res = await axios.post(SERVER_URI + "user/save/", data, { withCredentials: true })
+    return [res, null];
   }
   catch (err) {
     return [null, err];
@@ -15,9 +15,12 @@ async function saveUser(data) {
 
 //check if user is logeed.
 async function isLogged() {
+  const id = sessionStorage.getItem("id")
+  if(id === null) return [{"logged": false}, null]
+
   try {
-    const [res, err] = await axios.get(SERVER_URI + "user/is_logged/")
-    return [res, err]
+    const res = await axios.get(SERVER_URI + `user/is_logged/`, { withCredentials: true })
+    return [res, null]
   }
   catch (err) {
     return [null, err]
@@ -27,8 +30,9 @@ async function isLogged() {
 //petition to log in.
 async function login(data) {
   try {
-    const [res, err] = await axios.post(SERVER_URI + "user/login/", data)
-      return [res, err]
+    const res = await axios.post(SERVER_URI + "user/login/", data, { withCredentials: true })
+      sessionStorage.setItem("id", data.id);
+      return [res, null]
   } catch (err) {
     return [null, err]
   }

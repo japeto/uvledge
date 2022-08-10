@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import { useFormik } from 'formik';
 import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
@@ -6,16 +8,28 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { loginInformationValidator } from '../../Services/Utils/YupModels/validateLogin';
-import { useNavigate } from "react-router-dom";
-import {login as LoginFunction} from "../../Services/Utils/AxiosPetitions/AxiosLogin"
+import { login as LoginFunction } from "../../Services/Utils/AxiosPetitions/AxiosLogin"
+import { Alert } from '@mui/material';
 
 function Login() {
   const [LoggedIn, setLoggedIn] = useState(false);
+  const [LoginEror, setLoginError] = useState({
+    show: false,
+    message: ""
+  });
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (LoggedIn) return navigate("/");
-  }, [LoggedIn]);
+    if (LoggedIn) navigate("/");
+
+  }, [LoggedIn], []);
+
+  //Message error handler
+  React.useEffect(() => {
+    if (!LoginEror.show) return;
+    setTimeout(() => setLoginError({ show: false, message: "" }), 5000);
+
+  }, [LoginEror])
 
   const formik = useFormik({
     initialValues: {
@@ -25,11 +39,17 @@ function Login() {
     validationSchema: loginInformationValidator
   });
 
-  const tryLogin = (values) =>{
-    LoginFunction(values).then(([res, err]) => {
-      if(err) return;
-      setLoggedIn(true);
-    })
+  const tryLogin = async (values) => {
+    const [res, err] = await LoginFunction(values)
+    console.log("err", err)
+    if (err) {
+      setLoginError({
+        show: true,
+        message: "Error trying to login"
+      })
+      return;
+    }
+    setLoggedIn(true);
   }
 
   const validateValues = async () => {
@@ -44,13 +64,27 @@ function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const valuesAreValid = await validateValues();
-    if(valuesAreValid) tryLogin(formik.values);
+    if (!valuesAreValid) {
+      setLoginError({
+        show: true,
+        message: "Invalid fields"
+      })
+      return;
+    }
+
+    tryLogin(formik.values);
 
 
   }
 
   return (
     <div>
+      {LoginEror.show ?
+        <Alert severity='error'>{LoginEror.message}</Alert>
+        :
+        null
+      }
+
       <Box component='form' onSubmit={onSubmit} sx={{ mt: 1 }}>
         <TextField
           fullWidth

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid'
@@ -10,16 +10,27 @@ import { login, saveUser } from '../../Services/Utils/AxiosPetitions/AxiosLogin'
 
 function SignUp() {
   const [LoggedIn, setLoggedIn] = useState(false);
+  const [LoginEror, setLoginError] = useState({
+    show: false,
+    message: ""
+  });
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (LoggedIn) return navigate("/");
+    if (LoggedIn) navigate("/");
   }, [LoggedIn]);
 
+  //Message error handler
+  React.useEffect(() => {
+    if (!LoginEror.show) return;
+    setTimeout(() => setLoginError({ show: false, message: "" }), 5000);
+
+  }, [LoginEror])
 
   const tipoids = [{ value: 'C.C', label: 'C.C' }, { value: 'T.I', label: 'T.I' }]
 
-  const isValidSubmit = async () =>{
+  const isValidSubmit = async () => {
     if (!formik.isValid) return [false, "Invalid values"];
     const [saveUserRes, saveUserErr] = await saveUser(formik.values)
     if (saveUserErr) return [false, saveUserErr];
@@ -38,11 +49,16 @@ function SignUp() {
       formik.setFieldTouched(key, true);
     }
 
-    const [validSubmit, message] =  await isValidSubmit();
-    if(!validSubmit) return;
+    const [validSubmit, messageError] = await isValidSubmit();
+    if (!validSubmit) {
+      setLoginError({
+        show: true,
+        message: messageError
+      })
+      return;
+    }
+
     setLoggedIn(true);
-
-
   }
 
   const formik = useFormik({
